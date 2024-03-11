@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @unique
+  username      String   @unique
+  accessToken   String
+  level         Int
+  xp            Int
+  unlockedTrees Tree[]
+  preferences   UserData
+  lastActivity  DateTime @default(now())
+}
+
+type UserData {
+  userId      String
+  xpWeighting Weighting?
+}
+
+type Weighting {
+  commit            Float?
+  pullRequestOpened Float?
+  // ... other activities and their weights
+}
+
+model Tree {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  rarity      String // (e.g., common, uncommon, rare)
+  imageUrl    String
+  xpThreshold Int
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String @db.ObjectId
+  // ... other tree-specific data (e.g., xpThreshold for unlocking)
+}
+
+model Item {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  effect      Effect // Optional subdocument for item effects
+  imageUrl    String
+  // ... other item-specific data
+}
+
+type Effect {
+  duration     Int // Minutes
+  xpMultiplier Float // (e.g., 1.5 for 50% bonus)
+  // ... other effects the item might have
+}

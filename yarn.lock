@@ -286,6 +286,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:^5.11.0":
+  version: 5.11.0
+  resolution: "@prisma/client@npm:5.11.0"
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: 10c0/4c314e5b9d0ae880cd048cfa224a017d5d044a850efadf189e02937abc09a24de764d62738cea7016c8af31dfa18069d5a0f7c4ac99a0b6e454987d5c3afbbfe
+  languageName: node
+  linkType: hard
+
 "@prisma/debug@npm:5.11.0":
   version: 5.11.0
   resolution: "@prisma/debug@npm:5.11.0"
@@ -4072,6 +4084,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "viridian@workspace:."
   dependencies:
+    "@prisma/client": "npm:^5.11.0"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"

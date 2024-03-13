@@ -1,0 +1,36 @@
+version: "2"
+
+services:
+  # Frontend (Next.js app)
+  frontend:
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_URL=${MONGODB_URL}
+    build: . # Build the image from the current directory (Dockerfile needed later)
+    ports:
+      - "3000:3000" # Map container port 3000 to your local machine's port 3000
+    develop:
+      # we specify the files to watch for changes
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./next.config.js
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+          # it'll watch for changes in the frontend directory and sync the changes with the container real time
+        - path: .
+          target: /app
+          action: sync
+
+  # MongoDB database
+  mongo:
+    image: mongo:latest # Use the official MongoDB image
+    ports:
+      - "27017:27017" # Map container port 27017 (MongoDB default) to your local port 27017
+    volumes:
+      - mongo-data:/data/db # Optional: persist MongoDB data using a volume
+
+volumes:
+  mongo-data: # Optional: volume name for persistent data

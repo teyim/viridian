@@ -6,7 +6,7 @@
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  url      = env("MONGODB_URL")
 }
 
 generator client {
@@ -21,20 +21,9 @@ model User {
   level         Int
   xp            Int
   unlockedTrees Tree[]
-  preferences   UserData
   lastActivity  DateTime @default(now())
 }
 
-type UserData {
-  userId      String
-  xpWeighting Weighting?
-}
-
-type Weighting {
-  commit            Float?
-  pullRequestOpened Float?
-  // ... other activities and their weights
-}
 
 model Tree {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
@@ -45,7 +34,7 @@ model Tree {
   xpThreshold Int
   user        User   @relation(fields: [userId], references: [id])
   userId      String @db.ObjectId
-  // ... other tree-specific data (e.g., xpThreshold for unlocking)
+  
 }
 
 model Item {
@@ -54,11 +43,10 @@ model Item {
   description String
   effect      Effect // Optional subdocument for item effects
   imageUrl    String
-  // ... other item-specific data
+  
 }
 
 type Effect {
   duration     Int // Minutes
   xpMultiplier Float // (e.g., 1.5 for 50% bonus)
-  // ... other effects the item might have
 }

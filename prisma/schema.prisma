@@ -21,10 +21,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  level         Int?
-  xp            Int?
+  level         Int      @default(1)
+  xp            Int      @default(0)
   unlockedTrees Tree[]
-  lastActivity  DateTime? @default(now())
+  lastActivity  DateTime @default(now())
 }
 
 

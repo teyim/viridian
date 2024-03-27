@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { AuthOptions } from "next-auth";
+import { AuthOptions, User } from "next-auth";
 import prisma from "./prisma";
 import GitHubProvider from "next-auth/providers/github";
 import type { GithubProfile } from "next-auth/providers/github";
@@ -29,12 +29,20 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
   // Callbacks are asynchronous functions you can use to control what happens
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
-  // callbacks: {
-  //   // async signIn(user, account, profile) { return true },
-  //   // async redirect(url, baseUrl) { return baseUrl },
-  //   // async session(session, user) { return session },
-  //   // async jwt(token, user, account, profile, isNewUser) { return token }
-  // },
+
+  callbacks: {
+    async session({ session, token }) {
+      session.user = token.user as User;
+
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+  },
 
   // Events are useful for logging
   // https://next-auth.js.org/configuration/events
@@ -49,6 +57,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, //jwt session token last 30days max
   },
   // Enable debug messages in the console if you are having problems
   debug: true,

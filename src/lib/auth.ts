@@ -16,7 +16,7 @@ export async function createUserWithInitialTree(userData: User | null) {
 
   await prisma.user.update({
     where: {
-      email: userData.email as string,
+      id: userData.id as string,
       NOT: { initialTreeUnlocked: true },
     }, // Unique identifier & flag check
     data: {

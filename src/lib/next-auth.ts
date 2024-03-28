@@ -39,19 +39,18 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      // if (user) {
-      //   try {
-      //     const userData = await fingUserById(user.id);
-      //     console.log(userData);
-      //     await createUserWithInitialTree(userData); // Call function to unlock initial tree
-      //   } catch (error) {
-      //     // Handle potential errors with initial tree unlocking
-      //     console.error(error);
-      //     // Optionally, redirect to a different page or display an error message
-      //   }
-      // }
-
-      token.user = user;
+      if (user) {
+        try {
+          const userData = await fingUserById(user.id);
+          console.log(userData);
+          await createUserWithInitialTree(userData); // Call function to unlock initial tree
+          token.user = user;
+        } catch (error) {
+          // Handle potential errors with initial tree unlocking
+          console.error(error);
+          // Optionally, redirect to a different page or display an error message
+        }
+      }
 
       return token;
     },

@@ -3,6 +3,8 @@ import { AuthOptions, User } from "next-auth";
 import prisma from "./prisma";
 import GitHubProvider from "next-auth/providers/github";
 import type { GithubProfile } from "next-auth/providers/github";
+import { createUserWithInitialTree } from "./auth";
+import { fingUserById } from "./helpers/user";
 
 export const NEXT_AUTH_OPTIONS: AuthOptions = {
   providers: [
@@ -37,9 +39,20 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
-      }
+      // if (user) {
+      //   try {
+      //     const userData = await fingUserById(user.id);
+      //     console.log(userData);
+      //     await createUserWithInitialTree(userData); // Call function to unlock initial tree
+      //   } catch (error) {
+      //     // Handle potential errors with initial tree unlocking
+      //     console.error(error);
+      //     // Optionally, redirect to a different page or display an error message
+      //   }
+      // }
+
+      token.user = user;
+
       return token;
     },
   },

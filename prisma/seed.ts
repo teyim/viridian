@@ -1,4 +1,4 @@
-import { trees } from "../src/contants";
+import { trees } from "../src/constants/trees";
 import prisma from "../src/lib/prisma";
 
 async function seed() {

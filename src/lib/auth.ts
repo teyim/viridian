@@ -3,25 +3,28 @@ import prisma from "./prisma";
 
 export async function createUserWithInitialTree(userData: User | null) {
   const freeTree = await prisma.tree.findFirst({
-    where: { xpThreshold: 0 }, // Or your criteria for the free tree
+    where: { xpThreshold: 0 },
   });
 
   if (!freeTree) {
     throw new Error("No free tree found!");
   }
 
-  if (!userData) {
-    throw new Error("NO user data!");
+  const user = await prisma.user.findUnique({
+    where: { email: userData?.email ?? "" }, // Or your unique identifier
+  });
+
+  if (!user || user.initialTreeUnlocked) {
+    return; // User already exists or tree already unlocked
   }
 
   await prisma.user.update({
-    where: {
-      id: userData.id as string,
-      NOT: { initialTreeUnlocked: true },
-    }, // Unique identifier & flag check
+    where: { email: userData?.email ?? "" }, // Or your unique identifier
     data: {
       unlockedTrees: { connect: { id: freeTree.id } },
-      initialTreeUnlocked: { set: true }, // Set flag after unlocking
+      initialTreeUnlocked: true, // Set the flag after unlocking
     },
   });
+
+  return user;
 }

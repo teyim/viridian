@@ -41,10 +41,17 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         try {
-          const userData = await fingUserById(user.id);
-          console.log(userData);
-          await createUserWithInitialTree(userData); // Call function to unlock initial tree
-          token.user = user;
+          if (!(user as any).initialTreeUnlocked) {
+            const userData = await fingUserById(user.id);
+            await createUserWithInitialTree(userData); // Call function to unlock initial tree
+          }
+
+          token.user = {
+            id: user.id,
+            image: user.image,
+            name: user.name,
+            email: user.email,
+          };
         } catch (error) {
           // Handle potential errors with initial tree unlocking
           console.error(error);

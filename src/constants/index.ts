@@ -1,4 +1,4 @@
-enum GithubActivity {
+export enum GithubActivity {
   WatchRepo = 3,
   CommentPullRequest = 5,
   StarRepo = 5,

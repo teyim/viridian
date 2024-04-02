@@ -1,12 +1,14 @@
 import { Session } from "next-auth";
 import { octokitInstance } from "../github";
 import { findUserById } from "../helpers/user";
+import { User } from "@prisma/client";
 
-export const fecthGithubActivity = async (session: Session) => {
+export const fetchGithubActivity = async (
+  session: Session,
+  userData: User | null
+) => {
   const octokitClient = octokitInstance(session.user.accessToken);
   let commitCount = 0;
-
-  const userData = await findUserById(session.user.id);
 
   try {
     let repos = await octokitClient.request("GET /user/repos", {
@@ -37,7 +39,7 @@ export const fecthGithubActivity = async (session: Session) => {
       commitCount += commits;
     }
   } catch (error) {
-    return new Error("Error fetching user data");
+    throw new Error("Error fetching user data");
   }
   return commitCount;
 };

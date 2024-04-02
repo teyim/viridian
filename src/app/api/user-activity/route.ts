@@ -1,8 +1,6 @@
 import { getServerSession } from "next-auth/next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { NEXT_AUTH_OPTIONS } from "@/lib/next-auth";
-import { octokitInstance } from "@/lib/github";
-import { fingUserById } from "@/lib/helpers/user";
 import { fecthGithubActivity } from "@/lib/server";
 
 export async function GET() {

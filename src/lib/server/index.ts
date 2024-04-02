@@ -1,12 +1,12 @@
 import { Session } from "next-auth";
 import { octokitInstance } from "../github";
-import { fingUserById } from "../helpers/user";
+import { findUserById } from "../helpers/user";
 
 export const fecthGithubActivity = async (session: Session) => {
   const octokitClient = octokitInstance(session.user.accessToken);
   let commitCount = 0;
 
-  const userData = await fingUserById(session.user.id);
+  const userData = await findUserById(session.user.id);
 
   try {
     let repos = await octokitClient.request("GET /user/repos", {

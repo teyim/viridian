@@ -4,7 +4,7 @@ import prisma from "./prisma";
 import GitHubProvider from "next-auth/providers/github";
 import type { GithubProfile } from "next-auth/providers/github";
 import { createUserWithInitialTree } from "./auth";
-import { fingUserById } from "./helpers/user";
+import { findUserById } from "./helpers/user";
 
 type oAuthProfile = {
   login: string;
@@ -46,7 +46,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
       if (user) {
         try {
           if (!(user as any).initialTreeUnlocked) {
-            const userData = await fingUserById(user.id);
+            const userData = await findUserById(user.id);
             await createUserWithInitialTree(userData); // Call function to unlock initial tree
           }
 

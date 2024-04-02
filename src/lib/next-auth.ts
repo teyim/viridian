@@ -1,10 +1,14 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { AuthOptions, User } from "next-auth";
+import { AuthOptions, Session, User } from "next-auth";
 import prisma from "./prisma";
 import GitHubProvider from "next-auth/providers/github";
 import type { GithubProfile } from "next-auth/providers/github";
 import { createUserWithInitialTree } from "./auth";
 import { fingUserById } from "./helpers/user";
+
+type oAuthProfile = {
+  login: string;
+};
 
 export const NEXT_AUTH_OPTIONS: AuthOptions = {
   providers: [
@@ -34,11 +38,11 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
 
   callbacks: {
     async session({ session, token }) {
-      session.user = token.user as User;
+      session.user = token.user as any;
 
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, profile }) {
       if (user) {
         try {
           if (!(user as any).initialTreeUnlocked) {
@@ -51,6 +55,9 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
             image: user.image,
             name: user.name,
             email: user.email,
+            userName: (profile as oAuthProfile)?.login,
+            accessToken: account?.access_token,
+            refreshToken: account?.refresh_token,
           };
         } catch (error) {
           // Handle potential errors with initial tree unlocking

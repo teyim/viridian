@@ -44,6 +44,7 @@ export async function updateUserStats(commits: number, user: User | null) {
       data: {
         unlockedTreeId: unlockedTrees,
         stats: { commits: updatedCommitCount },
+        xp: newXpPoint,
         lastActivity: now,
       },
     });

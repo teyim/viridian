@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/providers/next-auth";
 
-const inter = Inter({ subsets: ["latin"] });
+const space_Grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={space_Grotesk.className}>
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>

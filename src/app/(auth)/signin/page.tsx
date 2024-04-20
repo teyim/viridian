@@ -1,3 +1,4 @@
+"use client";
 import Signin from "@/components/forms/Signin";
 import React from "react";
 

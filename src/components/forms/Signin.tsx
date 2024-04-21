@@ -5,7 +5,7 @@ import Image from "next/image";
 import Tree from "@public/images/tree.svg";
 import { signIn } from "next-auth/react";
 import AuthError from "next-auth";
-import { signInOAuth } from "@/lib/server/actions";
+import { signInOAuth } from "@/lib/auth";
 
 function Signin() {
   const [error, setError] = useState("");

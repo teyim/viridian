@@ -1,5 +1,9 @@
 import { User } from "@prisma/client";
 import prisma from "./prisma";
+import { redirect } from "next/navigation";
+import type RedirectableProviderType from "next-auth";
+import { OAuthProviderType } from "next-auth/providers/oauth-types";
+import { SignInResponse, signIn } from "next-auth/react";
 
 export async function createUserWithInitialTree(userData: User | null) {
   const freeTree = await prisma.tree.findFirst({
@@ -27,4 +31,23 @@ export async function createUserWithInitialTree(userData: User | null) {
   });
 
   return user;
+}
+
+export async function signInOAuth({
+  provider,
+}: {
+  provider: OAuthProviderType;
+}) {
+  let response: SignInResponse | null | undefined = null;
+  try {
+    response = await signIn(provider, {
+      redirect: true,
+      callbackUrl: "/",
+    });
+  } catch (error: any) {
+    return {
+      status: "error",
+      errorMessage: error.message,
+    } as const;
+  }
 }

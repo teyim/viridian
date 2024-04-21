@@ -5,7 +5,7 @@ import { NextAuthProvider } from "@/providers/next-auth";
 
 const space_Grotesk = Space_Grotesk({
   subsets: ["latin"],
-  display: "swap",
+  variable: "--font-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={space_Grotesk.className}>
+      <body className={`${space_Grotesk.variable} `}>
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>

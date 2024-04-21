@@ -20,7 +20,9 @@ const config = {
     extend: {
       fontFamily: {
         grotesk: ["var(--font-grotesk)"],
+        poppins: ["var(--font-poppins)"],
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

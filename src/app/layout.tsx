@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Space_Grotesk, Poppins } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/providers/next-auth";
 
 const space_Grotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-grotesk",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${space_Grotesk.variable} `}>
+      <body className={`${space_Grotesk.variable} font-grotesk`}>
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>

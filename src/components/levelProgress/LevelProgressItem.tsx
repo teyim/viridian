@@ -29,8 +29,18 @@ function LevelProgressItem({
             !isActive && "hidden"
           )}
         ></div>
-        <div className="w-[56px] h-[68px]  bg-[#333333] rounded-[13px] z-10 absolute top-0">
-          <div className="w-[56px] h-[58px] bg-[#4C4C4C] rounded-[13px] border-[8px] border-[#666666] flex justify-center items-center">
+        <div
+          className={twMerge(
+            "w-[56px] h-[68px]  bg-[#333333] rounded-[13px] z-10 absolute top-0",
+            !isActive && "bg-[#808080]"
+          )}
+        >
+          <div
+            className={twMerge(
+              "w-[56px] h-[58px] bg-[#4C4C4C] rounded-[13px] border-[8px] border-[#666666] flex justify-center items-center",
+              !isActive && "border-[#B3B3B3] bg-[#CCCCCC]"
+            )}
+          >
             <Image
               src={img}
               alt="tree"

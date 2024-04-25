@@ -1,4 +1,4 @@
-import { CircleHelp, CircleUser, Goal, Store } from "lucide-react";
+import { CircleHelp, CircleUser, Goal, Store, Trees } from "lucide-react";
 import { title } from "process";
 import React from "react";
 
@@ -17,12 +17,16 @@ function BottomMenuBar() {
       title: "Goals",
     },
     {
+      icon: <Trees strokeWidth={1.5} />,
+      title: "My forest",
+    },
+    {
       icon: <CircleHelp strokeWidth={1.5} />,
       title: "Help",
     },
   ];
   return (
-    <div className="absolute z-20 bottom-6 px-2 py-4 w-[400px] bg-[#333333] text-white rounded-2xl left-0 right-0 mx-auto font-mono text-sm">
+    <div className="absolute z-20 bottom-6 px-2 py-4 w-[500px] bg-[#333333] text-white rounded-2xl left-0 right-0 mx-auto font-mono text-sm">
       <ul className="flex items-center justify-evenly text-gray-200">
         {bottomMenuItems.map((menuItem, index) => (
           <li key={index}>

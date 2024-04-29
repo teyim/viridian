@@ -6,6 +6,7 @@ import prisma from "../prisma";
 export async function findUserById(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
+    include: { unlockedTrees: true },
   });
 
   return user;
@@ -46,6 +47,7 @@ export async function updateUserStats(commits: number, user: User | null) {
         stats: { commits: updatedCommitCount },
         xp: newXpPoint,
         lastActivity: now,
+        level: unlockedTrees?.length,
       },
     });
 

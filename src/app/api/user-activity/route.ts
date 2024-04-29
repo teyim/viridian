@@ -24,7 +24,7 @@ export async function GET() {
 
     const updatedUser = await updateUserStats(userCommits, userData);
 
-    return NextResponse.json({ commits: updatedUser });
+    return NextResponse.json({ user: updatedUser });
   } catch (error) {
     return NextResponse.json(
       { message: "Error fetching user activity" },

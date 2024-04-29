@@ -1,8 +1,9 @@
-"use client";
 import BottomMenuBar from "@/components/BottomMenuBar";
-import RadialProgress from "@/components/RadialProgress";
 import LevelProgress from "@/components/levelProgress";
 import { trees } from "@/constants/trees";
+import { isoToDateTime } from "@/lib/helpers";
+import { findUserById } from "@/lib/helpers/user";
+import { NEXT_AUTH_OPTIONS } from "@/lib/next-auth";
 import {
   Gem,
   GitCommitVertical,
@@ -12,13 +13,16 @@ import {
   Shrub,
   Trees,
 } from "lucide-react";
+import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useState, useEffect, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-const Home = () => {
-  const { data: session } = useSession();
+const Home = async () => {
+  const session = await getServerSession(NEXT_AUTH_OPTIONS);
+  const user = await findUserById(session?.user.id ?? "");
+  console.log(user);
   return (
     <section className="text-gray-700 h-screen w-screen overflow-hidden relative font-mono">
       {/**Dashboard header section */}
@@ -29,19 +33,25 @@ const Home = () => {
         <div className=" flex item-center space-x-5  text-sm">
           <div className="flex items-center space-x-1">
             <Medal />
-            <span className="font-extrabold text-black">160 xp</span>
+            <span className="font-extrabold text-black">{user?.xp} xp</span>
           </div>
           <div className="flex items-center space-x-1">
             <GitCommitVertical />
-            <span className="font-extrabold text-black">23</span>
+            <span className="font-extrabold text-black">
+              {user?.stats?.commits}
+            </span>
           </div>
           <div className="flex items-center space-x-1">
             <Trees />
-            <span className="font-extrabold text-black">level 1</span>
+            <span className="font-extrabold text-black">
+              level {user?.level}
+            </span>
           </div>
           <div className="flex items-center space-x-1">
             <RefreshCw />
-            <span className="font-extrabold text-black">last sync</span>
+            <span className="font-extrabold text-black">
+              {isoToDateTime(user?.lastActivity)}
+            </span>
           </div>
           <div className="flex items-center space-x-3">
             <div className=" rounded-full">
@@ -57,7 +67,7 @@ const Home = () => {
         </div>
       </div>
       <div className=" mt-4 overflow-x-auto w-[98vw] mx-auto  no-scrollbar">
-        <LevelProgress />
+        <LevelProgress unlockedTrees={user?.unlockedTrees || []} />
       </div>
       <div className="mt-[55px] flex  justify-center">
         <div className="relative flex flex-col text-center items-center">

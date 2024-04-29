@@ -2,8 +2,12 @@ import React from "react";
 import LevelProgressItem from "./LevelProgressItem";
 import { trees } from "@/constants/trees";
 import { getMarginStyles } from "@/lib/helpers";
+import { Tree } from "@prisma/client";
 
-function LevelProgress() {
+type LevelProgressProps = {
+  unlockedTrees: Tree[];
+};
+function LevelProgress({ unlockedTrees }: LevelProgressProps) {
   return (
     <div className="flex">
       {trees.map((tree, index) => (
@@ -11,7 +15,7 @@ function LevelProgress() {
           key={index}
           img={tree.imageUrl}
           xp={tree.xpThreshold}
-          isActive={index <= 0}
+          isActive={tree?.name === unlockedTrees[index]?.name}
           showIndicator={index < trees.length - 1}
         />
       ))}

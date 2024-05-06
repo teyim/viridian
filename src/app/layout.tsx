@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Poppins } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/providers/next-auth";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import QueryClientContextProvider from "@/providers/react-query";
 
 const space_Grotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -26,9 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${space_Grotesk.variable} font-grotesk`}>
-        <NextAuthProvider>{children}</NextAuthProvider>
-      </body>
+      <QueryClientContextProvider>
+        <body className={`${space_Grotesk.variable} font-grotesk`}>
+          <NextAuthProvider>{children}</NextAuthProvider>
+        </body>
+      </QueryClientContextProvider>
     </html>
   );
 }

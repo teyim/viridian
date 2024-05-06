@@ -13,12 +13,14 @@ export async function findUserById(userId: string) {
 }
 
 //
-export async function updateUserStats(commits: number, user: User | null) {
+export async function updateUserStats(
+  commits: number,
+  userId: string | undefined
+) {
   try {
     // fetch current user xp points
     const currentData = await prisma.user.findUnique({
-      where: { id: user?.id },
-      select: { xp: true, stats: true },
+      where: { id: userId },
     });
 
     const calculatedXpPoints = calculateXpPoints(commits);
@@ -30,7 +32,7 @@ export async function updateUserStats(commits: number, user: User | null) {
       where: { xpThreshold: { lte: newXpPoint } }, // Find trees with unlockXp <= newXpPoint
     });
 
-    const unlockedTrees = user?.unlockedTreeId;
+    const unlockedTrees = currentData?.unlockedTreeId;
 
     for (const tree of availableTrees) {
       if (newXpPoint >= tree.xpThreshold && !unlockedTrees?.includes(tree.id)) {
@@ -41,7 +43,7 @@ export async function updateUserStats(commits: number, user: User | null) {
     const now = new Date(); // Get the current time
 
     const updatedUser = await prisma.user.update({
-      where: { id: user?.id },
+      where: { id: userId },
       data: {
         unlockedTreeId: unlockedTrees,
         stats: { commits: updatedCommitCount },

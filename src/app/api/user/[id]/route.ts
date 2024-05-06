@@ -23,7 +23,7 @@ export async function GET(request: NextRequest, { params }: RequestParams) {
 
   try {
     const user = await findUserById(params?.id);
-    return NextResponse.json({ user: user });
+    return NextResponse.json(user);
   } catch (error) {
     return NextResponse.json(
       { message: "Error fetching user data" },

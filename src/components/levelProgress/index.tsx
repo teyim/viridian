@@ -1,7 +1,6 @@
 import React from "react";
 import LevelProgressItem from "./LevelProgressItem";
 import { trees } from "@/constants/trees";
-import { getMarginStyles } from "@/lib/helpers";
 import { Tree } from "@prisma/client";
 
 type LevelProgressProps = {

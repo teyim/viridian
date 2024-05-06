@@ -5,7 +5,7 @@ import { User } from "@prisma/client";
 
 export const fetchGithubActivity = async (
   session: Session,
-  userData: User | null
+  lastActivity: string | undefined
 ) => {
   const octokitClient = octokitInstance(session.user.accessToken);
   let commitCount = 0;
@@ -22,7 +22,7 @@ export const fetchGithubActivity = async (
       return octokitClient.request("GET /repos/{owner}/{repo}/commits", {
         owner: repo.owner.login,
         repo: repo.name,
-        since: userData?.lastActivity?.toISOString(), // get commits in repo since the last time we fetched commits
+        since: lastActivity, // get commits in repo since the last time we fetched commits
       });
     });
 

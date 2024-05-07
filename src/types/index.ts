@@ -11,7 +11,7 @@ export enum QueryKeys {
 
 export const ZComputeGithubActivityRequestData = z.object({
   userId: z.string(),
-  lastActivity: z.date(),
+  lastActivity: z.union([z.date(), z.string()]),
 });
 
 export type TComputeGithubActivityRequestData = z.infer<

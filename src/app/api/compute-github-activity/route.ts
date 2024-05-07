@@ -10,8 +10,12 @@ import {
 } from "@/types";
 
 export async function POST(req: NextRequest) {
-  const requestData = req.body;
+  const requestData = await req.json();
+  const { lastActivity, userId } =
+    requestData as TComputeGithubActivityRequestData;
   const session = await getServerSession(NEXT_AUTH_OPTIONS);
+
+  console.log(requestData);
 
   if (!session) {
     return NextResponse.json(
@@ -32,12 +36,15 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const userCommits = await fetchGithubActivity(
-      session,
-      requestData?.lastAcivity
-    );
+    if (lastActivity) {
+      const userCommits = await fetchGithubActivity(
+        session,
+        lastActivity.toString()
+      );
+    }
 
-    await updateUserStats(userCommits, requestData?.userId);
+    console.log(userCommits);
+    // await updateUserStats(userCommits, requestData?.userId);
 
     return NextResponse.json({ message: "User activity updated" });
   } catch (error) {

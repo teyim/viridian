@@ -10,6 +10,7 @@ export const fetchGithubActivity = async (
   const octokitClient = octokitInstance(session.user.accessToken);
   let commitCount = 0;
 
+  console.log(lastActivity);
   try {
     let repos = await octokitClient.request("GET /user/repos", {
       sort: "updated",

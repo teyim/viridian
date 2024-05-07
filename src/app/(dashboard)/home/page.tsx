@@ -25,6 +25,7 @@ const Home = () => {
   const { data: session } = useSession();
   const { data: user, isPending } = useGetUserData(session?.user.id);
   const { mutate } = useMutation({
+    mutationKey: [QueryKeys.USER_ACTIVITY],
     mutationFn: (data: TComputeGithubActivityRequestData) =>
       calculateUserActivity(data),
   });
@@ -40,7 +41,7 @@ const Home = () => {
             queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] });
           },
           onError: (error: any) => {
-            alert(error.message);
+            console.log(error.response.data.message);
           },
         }
       );

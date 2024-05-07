@@ -6,7 +6,7 @@ export const calculateUserActivity = async (
   data: TComputeGithubActivityRequestData
 ) => {
   const response = await axiosConfig.post<{ message: string }>(
-    "user-activity/",
+    "compute-github-activity/",
     data
   );
   return response.data;

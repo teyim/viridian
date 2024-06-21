@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <QueryClientContextProvider>
-        <body className={`${space_Grotesk.variable} font-grotesk`}>
+        <body className={`${space_Grotesk.variable}`}>
           <NextAuthProvider>{children}</NextAuthProvider>
         </body>
       </QueryClientContextProvider>

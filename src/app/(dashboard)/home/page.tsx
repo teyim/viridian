@@ -104,7 +104,7 @@ const Home = () => {
             <div className="relative flex flex-col text-center items-center">
               <div className="size-[150px]  flex justify-center items-end">
                 <Image
-                  src={trees[0].imageUrl}
+                  src={trees[2].imageUrl}
                   alt="tree"
                   width={50}
                   height={50}
@@ -112,7 +112,7 @@ const Home = () => {
                 />
               </div>
               <div className=" my-4">
-                <h3 className="font-bold text-yellow-600">{trees[0].name}</h3>
+                <h3 className="font-bold text-[#CA8A04]">{trees[0].name}</h3>
                 <p className="text-sm">{trees[0].description}</p>
                 <div className="my-3 flex space-x-3 justify-center">
                   <div className="text-xs justify-center flex space-x-1 rounded-lg p-1 text-yellow-600 bg-yellow-200 items-center w-[90px] ring-1 ring-yellow-600">

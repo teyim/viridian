@@ -20,7 +20,7 @@ services:
         - path: ./package-lock.json
           action: rebuild
           # it'll watch for changes in the frontend directory and sync the changes with the container real time
-        - path: .
+        - path: ./src
           target: /app
           action: sync
 

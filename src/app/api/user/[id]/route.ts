@@ -25,9 +25,6 @@ export async function GET(request: NextRequest, { params }: RequestParams) {
     const user = await findUserById(params?.id);
     return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json(
-      { message: "Error fetching user data" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }

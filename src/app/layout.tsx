@@ -2,18 +2,20 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Poppins } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/providers/next-auth";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import QueryClientContextProvider from "@/providers/react-query";
 
+// Configure fonts with display: swap for better loading performance
 const space_Grotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-grotesk",
+  display: 'swap',
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -28,11 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <QueryClientContextProvider>
-        <body className={`${space_Grotesk.variable}`}>
+      <body className={`${space_Grotesk.variable} ${poppins.variable}`}>
+        <QueryClientContextProvider>
           <NextAuthProvider>{children}</NextAuthProvider>
-        </body>
-      </QueryClientContextProvider>
+        </QueryClientContextProvider>
+      </body>
     </html>
   );
 }
